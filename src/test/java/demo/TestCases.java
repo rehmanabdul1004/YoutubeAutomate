@@ -1,6 +1,6 @@
 package demo;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.By;          // All these are the packages which we imported to use in the code below
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -29,24 +29,26 @@ import java.util.logging.Level;
 
 public class TestCases extends ExcelDataProvider{ // Lets us read the data
 
-    ChromeDriver driver;
+    ChromeDriver driver;                // Initializing ChromeDriver
     SoftAssert softAssert = new SoftAssert(); // Initialize SoftAssert
 
-    @Test
+    @Test//Code for TestCase01
     public void testCase01() throws InterruptedException{
-        Wrappers wrapp = new Wrappers(driver);
-        driver.get("https://www.youtube.com/");
-        Wrappers.logStatus("TestCase01 has Stared", "Pass");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        Wrappers wrapp = new Wrappers(driver); // Initializing Wrapper clasess
+        driver.get("https://www.youtube.com/");         //Url to open in the Browser
+        Wrappers.logStatus("TestCase01 has Stared", "Pass");           // Usage of Wrapper Class
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));         //Usage of Wait as we are working with WebDriverWait
+        //This following line is used to wait until page is loaded completely
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
         //String originalUrl = driver.getWindowHandle();
         // Using SoftAssert for checking the URL
         softAssert.assertTrue(driver.getCurrentUrl().equals("https://www.youtube.com/"), "URL mismatch!");
 
-        driver.findElement(By.xpath("//*[@id='guide-icon']")).click();
-        WebElement about = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='guide-links-primary']/a[1]")));
-        Wrappers.moveToElement(about);
-        about.click();
+        driver.findElement(By.xpath("//*[@id='guide-icon']")).click();  // clicking the element
+        WebElement about = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='guide-links-primary']/a[1]")));    //Wait until the given elemenet presence is identified
+        Wrappers.moveToElement(about);         //Usage of Wrapper class
+        about.click();  //Clicking the WebElement
+        //Wait until the webpage is loaded
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
         //Thread.sleep(4000);
         Wrappers.logStatus(driver.findElement(By.xpath("//*[@id=\"content\"]/section/h1")).getText(), "Check");
@@ -55,19 +57,21 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
         Wrappers.logStatus("TestCase01 has Ended", "Pass");
         // If you want to check multiple conditions, you can continue using softAssert for other checks
     }
-    @Test
+    @Test// Code for TestCase02
     public void testCase02(){
-        Wrappers.logStatus("TestCase2 has Stared", "Check");
-        Wrappers wrapp = new Wrappers(driver);
+        Wrappers.logStatus("TestCase2 has Stared", "Check");    //Usage of Wrapper Class
+        Wrappers wrapp = new Wrappers(driver);  //Initializing the Wrapper class with driver
         driver.get("https://www.youtube.com/");
         //Wrappers.logStatus("TestCase01 has Stared", "Pass");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); //Usage of WebDriver Wait
+        //This is used to wait until the page is loaded completely
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
         driver.findElement(By.xpath("//*[@id='guide-icon']")).click();
         //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement films = driver.findElement(By.xpath("//yt-formatted-string[text()='Films' or text()='Movies']"));
-        Wrappers.moveToElement(films);
+        Wrappers.moveToElement(films);  //Usage of Wrapper Class
         films.click();
+        //This is used to wait until the page is loaded completely        
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
         //WebElement sideScrollButton=driver.findElement(By.xpath("//*[@id='right-arrow']/ytd-button-renderer/yt-button-shape"));
         while(true){
@@ -89,13 +93,14 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
         softAssert.assertTrue(Type.equals("U"),"Movie Type does not match");
         Wrappers.logStatus("TestCase02 has Ended", "Check");
     }
-    @Test
+    @Test       //Code for TestCase03
     public void testCase03(){
         Wrappers.logStatus("TestCase3 has Stared", "Check");
-        Wrappers wrapp = new Wrappers(driver);
-        driver.get("https://www.youtube.com/");
+        Wrappers wrapp = new Wrappers(driver);  //Initializing the Wrapper class with driver
+        driver.get("https://www.youtube.com/"); //Opening the url in the Browser
         //Wrappers.logStatus("TestCase01 has Stared", "Pass");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        //Wit until page is Loaded completely
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
         driver.findElement(By.xpath("//*[@id='guide-icon']")).click();
         WebElement MuiscButton = driver.findElement(By.xpath("//yt-formatted-string[text()='Music']"));
@@ -114,22 +119,23 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
         WebElement lastMusic = driver.findElement(By.xpath("//*[@id='contents']/ytd-item-section-renderer[1]/div[3]/ytd-shelf-renderer/div[1]/div[2]/yt-horizontal-list-renderer/div[2]/div/div/yt-lockup-view-model[last()]"));
         String songNameCollection = lastMusic.findElement(By.xpath("./div/div/yt-lockup-metadata-view-model/div/h3/a/span")).getText();
         //System.out.println(songNameCollection);
-        Wrappers.Print(songNameCollection);
+        Wrappers.Print(songNameCollection);//Usage of Wrapper class
         String count = driver.findElement(By.xpath("//*[@id='items']/yt-lockup-view-model[12]/div/a/yt-collection-thumbnail-view-model/yt-collections-stack/div/div[3]/yt-thumbnail-view-model/yt-thumbnail-overlay-badge-view-model/yt-thumbnail-badge-view-model/badge-shape/div[2]")).getText();
         int value = Integer.parseInt(count.substring(0,count.indexOf(" "))); 
         System.out.println(value);
-        softAssert.assertTrue(value>=50,"Count mismatched");
+        softAssert.assertTrue(value>=50,"Count mismatched");    //Softasser Usage
         Wrappers.logStatus("TestCase3 has Ended", "DONE");
     }//*[@id='contents']/ytd-item-section-renderer[1]/div[3]/ytd-shelf-renderer/div[1]/div[2]/yt-horizontal-list-renderer/div[2]/div/div/yt-lockup-view-model[last()]/div/a/yt-collection-thumbnail-view-model/yt-collections-stack/div/div[3]/yt-thumbnail-view-model/div
     @Test
-    public void testCase04(){
+    public void testCase04(){//Code for TestCase04
         Wrappers.logStatus("TestCase3 has Stared", "Check");
-        Wrappers wrapp = new Wrappers(driver);
-        driver.get("https://www.youtube.com/");
+        Wrappers wrapp = new Wrappers(driver);  //Initializing the Wrapper class with driver
+        driver.get("https://www.youtube.com/");         //Opening the code for the browser
         //Wrappers.logStatus("TestCase01 has Stared", "Pass");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); //Usage of WebDriver Wait
+        //wait until the page is loaded completely
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
-        driver.findElement(By.xpath("//*[@id='guide-icon']")).click();
+        driver.findElement(By.xpath("//*[@id='guide-icon']")).click();  //Applying click even on the element
         WebElement NewsButton = driver.findElement(By.xpath("//yt-formatted-string[text()='News']"));
         NewsButton.click();
         wait.until(driver -> ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
@@ -151,7 +157,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
                 System.out.println("Sum of Likes is -"+sum);
         }
     }
-    @Test(dataProvider = "excelData", dataProviderClass = ExcelDataProvider.class)
+    @Test(dataProvider = "excelData", dataProviderClass = ExcelDataProvider.class)              //Usage of DataProvider and TestCase05
     public void testCase05(String Searchterm) throws InterruptedException{
         Wrappers.logStatus("TestCase3 has Stared", "Check");
         Wrappers wrapp = new Wrappers(driver);
@@ -206,7 +212,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
         
     }
 
-    @BeforeTest
+    @BeforeTest                 //Executed before each test
     public void startBrowser() {
         
         System.setProperty("java.util.logging.config.file", "logging.properties");
@@ -232,7 +238,7 @@ public class TestCases extends ExcelDataProvider{ // Lets us read the data
         driver.manage().window().maximize();
     }
 
-    @AfterTest
+    @AfterTest          //Executed after each test
     public void endTest() {
         // Assert all the soft assertions
         softAssert.assertAll();  // Ensure all soft assertions are checked
